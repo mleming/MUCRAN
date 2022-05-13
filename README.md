@@ -28,6 +28,12 @@ An example bash file to run the main.py code is offered in run_main.sh
 bash run_main.sh
 ```
 
+If the Pandas file above were located at /path/to/vars_file.pkl, it would be run as such:
+
+```bash
+python main.py --var_file python3 main.py --/path/to/vars_file.pkl --l SEX --c HEAD_SIZE AGE
+```
+
 # Analysis
 
 MUCRAN outputs its results as a number of JSON files. The ensemble_auroc.py script can be used to combine the results of a number of independent MUCRAN outputs into an ensemble.
