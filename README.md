@@ -23,3 +23,11 @@ MUCRAN requires a dataset of 3D .npy files, along with a Pandas .pkl file with t
 # Run
 
 An example bash file to run the main.py code is offered in run_main.sh
+
+# Analysis
+
+MUCRAN outputs its results as a number of JSON files. The ensemble_auroc.py script can be used to combine the results of a number of independent MUCRAN outputs into an ensemble.
+
+```bash
+python ensemble_auroc.py path/to/output_test1.json path/to/output_test2.json path/to/output_test3.json
+```
