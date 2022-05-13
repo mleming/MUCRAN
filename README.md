@@ -5,7 +5,7 @@ MUCRAN is a DL model applied to 3D images that is able to classify them while re
 
 [arXiv paper](https://arxiv.org/abs/2205.02885)
 
-For example, let's say you're attempting to train a DL model to distinguish sex, given only the 3D MRIs of males and females, but you don't want it to take head size or age into account while doing so. This can be particularly important for imbalanced datasets (for example, in a training set in which male subjects have larger heads or a statistically significant age difference when compared to females). MUCRAN will be able to classify based on biological features without taking these features into account.
+For example, let's say you're attempting to train a DL model to distinguish sex, given only the 3D MRIs of males and females, but you don't want it to take head size or age into account while doing so. This can be particularly important for imbalanced datasets (for example, in a training set in which male subjects have larger heads or a statistically significant age difference when compared to females). MUCRAN will be able to classify based on features other than head size or age when training.
 
 # Input
 
@@ -23,6 +23,10 @@ MUCRAN requires a dataset of 3D .npy files, along with a Pandas .pkl file with t
 # Run
 
 An example bash file to run the main.py code is offered in run_main.sh
+
+```bash
+bash run_main.sh
+```
 
 # Analysis
 
