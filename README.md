@@ -31,7 +31,7 @@ bash run_main.sh
 If the Pandas file above were located at /path/to/vars_file.pkl, it would be run as such:
 
 ```bash
-python main.py --var_file python3 main.py --/path/to/vars_file.pkl --l SEX --c HEAD_SIZE AGE
+python main.py --/path/to/vars_file.pkl --label SEX --c HEAD_SIZE AGE
 ```
 
 # Analysis
