@@ -10,10 +10,6 @@ import numpy as np
 import pandas as pd
 from textwrap import wrap
 
-# Takes in as input the .json output predictions and evaluates them as an
-# ensemble.
-
-
 parser = argparse.ArgumentParser(description = "Finds the aggregate AUROC")
 parser.add_argument('json_files', metavar='N', type=str, nargs='+')
 parser.add_argument('--plot',action='store_true',default=False)
@@ -23,7 +19,7 @@ parser.add_argument('--disc_mode',type=str,default="modality")
 parser.add_argument('--min_samples',type=int,default=1)
 parser.add_argument('--max_samples',type=int,default=np.Inf)
 parser.add_argument('--max_std',type=float,default=np.inf)
-parser.add_argument('--inclusion_threshold',type=float,default=0,
+parser.add_argument('--remove_range',type=float,default=0,
 	help="Removes samples with a final prediction sitting within X of 0.5.")
 parser.add_argument('--group_folders',default=False,action='store_true')
 parser.add_argument('--group_var',default="",type=str)
@@ -34,7 +30,7 @@ parser.add_argument('--output_aurocs',action='store_true',default=False)
 parser.add_argument('--title',default = "",type=str)
 parser.add_argument('--print_uncertainty_meas',default=False,
 	action='store_true',
-	help="Outputs inclusion_threshold,output accuracy, number of instances included")
+	help="Outputs remove_range,output accuracy, number of instances included")
 parser.add_argument('--histogram',default=False,action='store_true')
 parser.add_argument('--ylim',default=-1,type=int)
 parser.add_argument('--color',default='blue')
@@ -238,15 +234,17 @@ for c in unique_covars:
 			if np.mean(pred_std) < args.max_std:
 				p = np.mean([k[0] for k in all_file[filestub]],axis=0)
 				
-				if (p.max() > (0.5 + args.inclusion_threshold)) or (p.max() < (0.5 - args.inclusion_threshold)):
+				if (p.max() > (0.5 + args.remove_range)) or (p.max() < (0.5 - args.remove_range)):
 					Y.append(np.mean([k[1] for k in all_file[filestub]],axis=0))
 					pred.append(np.mean([k[0] for k in all_file[filestub]],axis=0))
 					fstubs.append(filestub)
 	fstubs = np.array(fstubs)
 	if c == "" and not args.nonverbose and not args.output_aurocs and not args.print_uncertainty_meas:
+		size_sum = 0
 		for key in sorted(sizes):
-			print("%d: %d (%s)" % (key,sizes[key][0],sizes[key][1]))
-	
+			#print("%d: %d (%s)" % (key,sizes[key][0],sizes[key][1]))
+			size_sum += sizes[key][0]
+		print("Size: %d" % size_sum)
 	Y = np.array(Y)
 	pred = np.array(pred)
 	pred_thresh = np.zeros(Y.shape,dtype=float)
@@ -354,7 +352,7 @@ for c in unique_covars:
 	
 	acc_account = np.mean(np.all((pred_thresh == Y),axis=1))
 	if args.print_uncertainty_meas:
-		print("%d,%f,%f,%s" %(int(Y.shape[0]),acc_account,args.inclusion_threshold,str(np.mean(Y,axis=0))))
+		print("%d,%f,%f,%s" %(int(Y.shape[0]),acc_account,args.remove_range,str(np.mean(Y,axis=0))))
 		exit()
 	if True:
 		print("Overall accuracy: %f"%acc_account)

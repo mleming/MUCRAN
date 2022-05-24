@@ -4,4 +4,4 @@
 # confounds to regress, and the var_file that stores the paths to all of the
 # data as well as the labels themselves.
 
-python3 main.py --var_file ../../pandas/cache/all_vars_2.pkl --l AlzStage -c SexDSC RepetitionTime
+python3 main.py --var_file ../../pandas/cache/all_vars_2.pkl --label AlzStage -c SexDSC RepetitionTime --total_load=48 --batch_size=2
